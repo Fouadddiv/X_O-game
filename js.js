@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded",function(){
-    let squares = document.querySelectorAll(".sq");
+let squares = document.querySelectorAll(".sq");
 let turn = "X";
 let gameOver = false;
 const title = document.querySelector(".title");
@@ -12,76 +11,76 @@ const winPatterns = [
 
 // دالة لإرسال رسالة لقارئ الشاشة
 function announce(message) {
-    const liveRegion = document.getElementById("live-region");
+    let liveRegion = document.getElementById("live-region");
     if (!liveRegion) {
-        let div = document.createElement("div");
-        div.id = "live-region";
-        div.setAttribute("aria-live", "polite");
-        div.setAttribute("role", "status");
-        div.style.position = "absolute";
-        div.style.left = "-9999px";
-        document.body.appendChild(div);
+        liveRegion = document.createElement("div");
+        liveRegion.id = "live-region";
+        liveRegion.setAttribute("aria-live", "polite");
+        liveRegion.setAttribute("role", "status");
+        liveRegion.style.position = "absolute";
+        liveRegion.style.left = "-9999px";
+        document.body.appendChild(liveRegion);
     }
-    document.getElementById("live-region").textContent = message;
+    liveRegion.textContent = message;
 }
 
+// التعامل مع الضغط أو اللمس على المربعات
+squares.forEach((square, index) => {
+    square.addEventListener("click", () => playMove(index));
+    square.addEventListener("touchstart", () => playMove(index));
+});
+
+// التعامل مع الكيبورد
 document.addEventListener("keydown", function(e) {
     if (gameOver) return;
 
     let num = parseInt(e.key);
     if (num >= 1 && num <= 9) {
-        let index = num - 1;
-        let square = squares[index];
-
-        if (square.textContent !== "X" && square.textContent !== "O") {
-            square.textContent = turn;
-
-            // فحص الفائز
-            let winnerPattern = checkWinner();
-            if (winnerPattern) {
-                gameOver = true;
-
-                // تلوين الصف الفائز بالأخضر
-                winnerPattern.forEach(i => squares[i].style.backgroundColor = "green");
-
-                title.textContent = turn + " فاز 🎉";
-                announce(turn + " فاز"); // إخطار قارئ الشاشة
-
-                // إعادة ضبط الصفحة بعد 7 ثواني
-                setTimeout(() => location.reload(), 7000);
-                return;
-            }
-
-            // فحص التعادل
-            if ([...squares].every(sq => sq.textContent === "X" || sq.textContent === "O")) {
-                gameOver = true;
-
-                // تلوين كل المربعات باللون الأحمر الغامق
-                squares.forEach(sq => sq.style.backgroundColor = "darkred");
-
-                title.textContent = "تعادل 🤝";
-                announce("تعادل"); // إخطار قارئ الشاشة
-
-                setTimeout(() => location.reload(), 7000);
-                return;
-            }
-
-            // تبديل الدور
-            turn = (turn === "X") ? "O" : "X";
-            title.textContent = "الدور: " + turn;
-            announce("الدور: " + turn); // إخطار قارئ الشاشة
-        }
+        playMove(num - 1);
     }
 });
+
+function playMove(index) {
+    if (gameOver) return;
+    let square = squares[index];
+
+    if (square.textContent !== "X" && square.textContent !== "O") {
+        square.textContent = turn;
+
+        let winnerPattern = checkWinner();
+        if (winnerPattern) {
+            gameOver = true;
+            winnerPattern.forEach(i => squares[i].style.backgroundColor = "green");
+            title.textContent = turn + " فاز 🎉";
+            announce(turn + " فاز");
+
+            // إعادة اللعبة بعد 7 ثواني
+            setTimeout(() => location.reload(), 7000);
+            return;
+        }
+
+        if ([...squares].every(sq => sq.textContent === "X" || sq.textContent === "O")) {
+            gameOver = true;
+            squares.forEach(sq => sq.style.backgroundColor = "darkred");
+            title.textContent = "تعادل 🤝";
+            announce("تعادل");
+
+            setTimeout(() => location.reload(), 7000);
+            return;
+        }
+
+        turn = (turn === "X") ? "O" : "X";
+        title.textContent = "الدور: " + turn;
+        announce("الدور: " + turn);
+    }
+}
 
 // دالة فحص الفائز وإرجاع الصف الفائز
 function checkWinner() {
     for (let pattern of winPatterns) {
         if (pattern.every(i => squares[i].textContent === turn)) {
-            return pattern; // إرجاع الصف الفائز لتلوينه
+            return pattern;
         }
     }
     return null;
 }
-
-})

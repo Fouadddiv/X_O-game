@@ -13,8 +13,8 @@ body{
     align-items: center;
 }
 .game{
-    width: 35em;
-    height: 40em;
+    width: 50vw;
+    height: 100vh;
     background-color: white;
     color: black;
     display: flex;
@@ -51,7 +51,7 @@ span{
     gap: 20px;
    justify-content: space-around;
    justify-self: center;
-   margin: 3em;
+   margin: 3em 5em;
 }
 .sq {
     width: 7rem;
