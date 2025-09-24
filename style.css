@@ -1,5 +1,4 @@
 *{
-    top: 0;
     margin: 0;
     box-sizing: border-box;
 }
@@ -15,6 +14,7 @@ body{
 .game{
     max-width: 35em;
     max-height: 40em;
+    position: fixed;
     background-color: white;
     color: black;
     display: flex;
