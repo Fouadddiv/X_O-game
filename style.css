@@ -15,6 +15,7 @@ body{
     max-width: 35em;
     max-height: 40em;
     position: fixed;
+    z-index: 300;
     background-color: white;
     color: black;
     display: flex;
@@ -49,10 +50,10 @@ span{
     width: 80%;
     display: grid;
     grid-template-columns: repeat(3,1fr);
-    gap: 20px;
+    gap: 15px;
    justify-content: space-around;
    justify-self: center;
-   margin: 3em auto;
+   margin: 2em auto;
    padding-right: 2em;
 }
 .sq {
@@ -73,13 +74,25 @@ span{
 
     flex-shrink: 0;       /* يمنع التصغير */
 }
+#foot{
+    width: fit-content;
+    background-color: darkblue;
+    color: #fff;
+    display: flex;
+    margin-left: 1em;
+    text-transform: uppercase;
+}
 @media (max-width: 768px){
 .game{
     width: 80vw;
     height: 100vh;
     margin: 0 1em;
+    position: fixed;
 }    
-.main{margin: 3em auto;}
+.main{margin: 2em auto;}
+#foot{
+    text-align: center;
+}
 }
 @media (max-width: 480px){
    .game{
@@ -88,9 +101,12 @@ span{
     margin: 0 1em;
    }
 .main{
-    margin: 3em auto;}
+    margin: 2em auto;}
     .sq{
         width: 5rem;
         height: 5rem;
     }
+#foot{
+    text-align: center;
+}
 }
