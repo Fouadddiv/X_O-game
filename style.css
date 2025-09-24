@@ -13,8 +13,8 @@ body{
     align-items: center;
 }
 .game{
-    width: 50vw;
-    height: 100vh;
+    max-width: 35em;
+    max-height: 40em;
     background-color: white;
     color: black;
     display: flex;
